@@ -1,0 +1,52 @@
+plugins {
+    id 'groovy'
+    id 'application'
+}
+
+group = 'org.example'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url 'https://repo1.maven.org/maven2' }
+}
+
+dependencies {
+    implementation 'org.apache.groovy:groovy:4.0.14'
+
+    implementation 'org.slf4j:slf4j-simple:1.7.36'
+    implementation 'org.slf4j:slf4j-api:1.7.36'
+
+    implementation 'org.apache.logging.log4j:log4j-core:2.17.1'
+    implementation 'org.apache.logging.log4j:log4j-api:2.17.1'
+
+    implementation 'ch.qos.logback:logback-core:1.1.7'
+    implementation 'ch.qos.logback:logback-classic:1.4.14'
+
+    implementation 'com.github.danielwegener:logback-kafka-appender:0.2.0-RC2'
+
+//    implementation 'org.slf4j:slf4j-api:2.0.13'
+//    implementation 'org.slf4j:slf4j-simple:2.0.13'
+
+//    implementation 'org.apache.kafka:kafka-clients:3.3.1'  // Kafka client dependency
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.0'  // Logback encoder for structured logging
+//    implementation 'ch.qos.logback.contrib:logback-kafka-appender:0.1.5'  // Kafka appender
+
+//    implementation 'org.apache.kafka:kafka-clients:3.3.1'  // Kafka client dependency
+//    implementation 'net.logstash.logback:logstash-logback-encoder:7.0'  // Logback encoder for structured logging
+//    implementation 'org.logback-extensions:logback-kafka:0.1.5'  // Kafka appender from the extensions project
+
+    testImplementation platform('org.junit:junit-bom:5.10.0')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+application {
+    mainClass = 'org.example.App'
+}
