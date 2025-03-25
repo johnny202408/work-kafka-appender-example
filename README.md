@@ -34,19 +34,45 @@ To configure the Kafka appender, create a `logback.xml` file in `src/main/resour
 
 Example configuration:
 ```xml
+<?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <appender name="KAFKA" class="com.github.danielwegener.logback.kafka.KafkaAppender">
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
-        <topic>logs</topic>
-        <keyingStrategy class="com.github.danielwegener.logback.kafka.keying.NoKeyKeyingStrategy"/>
-        <deliveryStrategy class="com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy"/>
 
+    <!-- Console Appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Appender -->
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>logs/app.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- Kafka Appender -->
+    <appender name="KAFKA" class="com.github.danielwegener.logback.kafka.KafkaAppender">
         <producerConfig>bootstrap.servers=localhost:9092</producerConfig>
+        <topic>log-topic</topic>
+        <producerConfig>retries=3</producerConfig>
+        <producerConfig>batch.size=1</producerConfig>  <!-- Force immediate sending -->
+        <producerConfig>linger.ms=0</producerConfig>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+<!--            <customFields>{"productSource":"1", "productType":"2"}</customFields>-->
+        </encoder>
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="KAFKA"/>
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE" />
+        <appender-ref ref="KAFKA" />
     </root>
+
+    <!-- Set specific loggers -->
+    <logger name="org.example" level="DEBUG"/>
+
 </configuration>
 ```
 
