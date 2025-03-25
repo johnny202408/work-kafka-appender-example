@@ -20,14 +20,15 @@
     <appender name="KAFKA" class="com.github.danielwegener.logback.kafka.KafkaAppender">
         <producerConfig>bootstrap.servers=localhost:9092</producerConfig>
         <topic>log-topic</topic>
-<!--        <customFields>{"productSource":"1", "productType":"2"}</customFields>-->
 <!--        <pattern>%d{yyyy-MM-dd HH:mm:ss} - %msg%n</pattern>-->
         <!-- Define the Kafka topic to send logs to -->
         <!-- Optional: Logstash encoder for structured logging -->
         <producerConfig>retries=3</producerConfig>
         <producerConfig>batch.size=1</producerConfig>  <!-- Force immediate sending -->
         <producerConfig>linger.ms=0</producerConfig>
-        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+<!--            <customFields>{"productSource":"1", "productType":"2"}</customFields>-->
+        </encoder>
     </appender>
 
     <!-- Set root logger to DEBUG -->

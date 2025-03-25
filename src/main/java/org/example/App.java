@@ -1,6 +1,6 @@
 package org.example;
 
-//import org.
+import org.slf4j.MDC;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +15,8 @@ public class App {
 //        this.init();
 //        exampleCalculator = new ExampleCalculator();
 
+        String sourceField = "ProductSource";
+        String typeField = "ProductType";
 
         System.out.println("--------------------------------");
         System.out.println("Hello Kafka...");
@@ -22,6 +24,8 @@ public class App {
 //        System.out.println("Consuming topic: [" + SOURCE_TOPIC + "] DLQ: [" + DLQ_TOPIC + "]");
         System.out.println("--------------------------------");
         for (int i = 1; i < 20 ; i++) {
+            MDC.put(sourceField, String.format("%d", i));
+            MDC.put(typeField, String.format("%d", (i + 10)));
             logger.debug("Debugging stuff... ");
             logger.info("Application started! (INFO)");
             logger.warn("This is a warning.");
